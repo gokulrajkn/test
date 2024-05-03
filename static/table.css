@@ -1,0 +1,168 @@
+#student {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-left: 345px;
+    margin-right: 25px;
+}
+
+
+#student td, #student th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#student tr:nth-child(even){background-color: #f2f2f2;}
+
+#student tr:hover {background-color: #ddd;}
+
+#student th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #257aa6;
+  color: white;
+}
+
+
+#conductor {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-left: 345px;
+    margin-right: 25px;
+}
+
+
+#conductor td, #conductor th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#conductor tr:nth-child(even){background-color: #f2f2f2;}
+
+#conductor tr:hover {background-color: #ddd;}
+
+#conductor th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #257aa6;
+  color: white;
+}
+
+#easepass {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-left: 345px;
+    margin-right: 25px;
+}
+
+
+#easepass td, #easepass th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#easepass tr:nth-child(even){background-color: #f2f2f2;}
+
+#easepass tr:hover {background-color: #ddd;}
+
+#easepass th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #257aa6;
+  color: white;
+}
+
+
+#application {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-left: 345px;
+    margin-right: 25px;
+}
+
+
+#application td, #application th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#application tr:nth-child(even){background-color: #f2f2f2;}
+
+#application tr:hover {background-color: #ddd;}
+
+#application th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #257aa6;
+  color: white;
+}
+
+
+
+
+
+
+#track {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-left: 8px;
+}
+
+
+#track td, #track th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#track tr:nth-child(even){background-color: #257aa6;}
+
+#track tr:hover {background-color: #ddd;}
+
+#track th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #257aa6;
+  color: white;
+}
+
+
+.accept{
+  width: 90px;
+  background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    margin-left: 12px;
+    margin-right: 12px;
+  border-radius: 8px;}
+
+    .reject{
+      width: 90px;
+  background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    margin-left: 12px;
+    margin-right: 12px;
+  border-radius: 8px;}

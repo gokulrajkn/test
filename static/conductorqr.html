@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Scanner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js" integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link rel="stylesheet" href="easepass.css">
+        <link rel="stylesheet" href="profile.css">
+
+<style>
+    main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #reader {
+        width: 600px;
+    }
+    #result {
+        text-align: center;
+        font-size: 1.5rem;
+    }
+</style>
+</head>
+<body>
+<main >
+    <div id="reader"></div>
+    <div id="result"></div>
+</main>
+
+<div class="app" id="component" style="display: none;">
+
+    <div class="student-profile py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent text-center">
+           <center> <img id="idcard" class="profile_img" src="LOGO-modified.png" alt=""></center>
+           <center><h3 id="username"></h3></center> 
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent border-0">
+          </div>
+          <div class="card-body pt-0">
+            <table class="table table-bordered">
+              <tr>
+                <th width="50%">Educational Institution</th>
+                <td width="2%">:</td>
+                <td id="educationalinstitution"></td>
+              </tr>
+              <tr>
+                <th width="30%">Application Date</th>
+                <td width="2%">:</td>
+                <td id="startDate"></td>
+              </tr>
+              <tr>
+                <th width="30%">Expiration Date</th>
+                <td width="2%">:</td>
+                <td id="endDate"></td>
+              </tr>
+               <tr>
+                <th width="30%">From</th>
+                <td width="2%">:</td>
+                <td id="startingpoint"></td>
+              </tr>
+              <tr>
+                <th width="30%">To</th>
+                <td width="2%">:</td>
+                <td id="endingpoint"></td>
+              </tr>
+            
+            <tr>
+                <th width="30%">Course of study</th>
+                <td width="2%">:</td>
+                <td id="courseofstudy"></td>
+              </tr>
+              <tr>
+                <th width="30%">Academic Year</th>
+                <td width="2%">:</td>
+                <td id="academicyearofstudy"></td>
+              </tr>
+                      
+
+ 
+              
+              
+            </table><br>
+                          <label style="margin-left: 30px;"><input type="checkbox" name="travel" id="onwardtravel" value="onward"> Onward travel</label>
+<label style="margin-left: 15px;"><input type="checkbox" name="travel" id="returntravel" value="return"> Return travel</label>
+
+  <button type="button" id="mark" onclick="redirect()">Mark </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+ </div>
+
+    <script>
+        const scanner = new Html5QrcodeScanner('reader', {
+        // Scanner will be initialized in DOM inside element with id of 'reader'
+        qrbox: {
+            width: 250,
+            height: 250,
+        },  // Sets dimensions of scanning box (set relative to reader element width)
+        fps: 20, // Frames per second to attempt a scan
+    });
+
+
+    scanner.render(success, error);
+    // Starts scanner
+    var finished=false;
+    function success(result) {
+    
+        
+        scanner.clear();
+        // Clears scanning instance
+
+        document.getElementById('reader').remove();
+        // Removes reader element from DOM since no longer needed
+   document.getElementById("idcard").src = "/image/"+ result+""
+
+        var data = 
+        {   
+            "username":result
+             };
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/studentlistdetails", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.status ==="invalid applicant") {
+                         alert("Invalid applicant");
+                    } else 
+                    {
+           document.getElementById("component").style.display="block";
+
+           document.getElementById("username").innerHTML=response.username;
+           document.getElementById("educationalinstitution").innerHTML=response.educationalinstitution;
+           document.getElementById("courseofstudy").innerHTML=response.courseofstudy;
+           document.getElementById("academicyearofstudy").innerHTML=response.academicyearofstudy;
+
+           document.getElementById("startingpoint").innerHTML=response.startingpoint;
+           document.getElementById("endingpoint").innerHTML=response.endingpoint;
+           document.getElementById("startDate").innerHTML=response.startDate;
+           document.getElementById("endDate").innerHTML=response.endDate;
+           document.getElementById("onwardtravel").checked=response.onward=="yes";
+           document.getElementById("returntravel").checked=response.return=="yes";
+           document.getElementById("onwardtravel").disabled=response.onward=="yes";
+           document.getElementById("returntravel").disabled=response.return=="yes";
+           finished=response.return=="yes"&&response.onward=="yes";
+
+
+                    }
+                } else {
+                    alert("Request failed with status: " + xhr.status);
+                }
+            }
+        };
+        
+        xhr.send(JSON.stringify(data));
+    }
+
+    function error(err) {
+        console.error(err);
+        // Prints any errors to the console
+    }
+ 
+    function redirect() {
+    if (finished) 
+    {
+    Swal.fire({
+  title: "Finished journey!",
+  text: "",
+  icon: "warning",
+  showCancelButton: false,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "OK!"
+}).then((result) => {
+  if (result.isConfirmed) {
+                            window.location.href = 'conductorhome';
+
+  }
+});
+    }
+else
+
+
+    {
+      var data = {
+            "student": document.getElementById("username").innerHTML,
+            "conductor": localStorage.getItem("username")                          
+                   
+             };
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/conductormark", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.status === "apply success") {
+Swal.fire({
+  title: "Marked Succesfully!",
+  text: "",
+  icon: "success",
+  showCancelButton: false,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "OK!"
+}).then((result) => {
+  if (result.isConfirmed) {
+                            window.location.href = 'conductorhome';
+
+  }
+});
+                       
+
+                    } else {
+                        swal("Finished journey!", "success");
+                    }
+                } else {
+                    alert("Request failed with status: " + xhr.status);
+                }
+            }
+        };
+        
+        xhr.send(JSON.stringify(data));
+}
+
+
+
+    }
+</script>
+    </script>
+</body>
+</html>
